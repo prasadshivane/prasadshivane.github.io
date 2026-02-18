@@ -1,0 +1,972 @@
+/* =========================================================
+   1. GLOBAL VARIABLES (Dark/Light Theme)
+   ========================================================= */
+:root {
+    --dark-bg-color: #1a1a1d;
+    --darker-bg-color: #121214;
+    --text-color: #f7f7f7;
+    --accent-color: #00ff7f; /* Cyber Green */
+    --secondary-color: #b7b7b7;
+    --link-hover-color: #ffffff;
+    --card-bg-color: #232325;
+    --border-color: #333;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --button-bg-color-accent: #333336; 
+    
+    /* NEW Contact Colors/Styling */
+    --contact-bg-color: #121214; /* Use the darker background for better contrast */
+    --contact-primary-color: #00bfff; /* Bright Blue/Cyan for titles and icons */
+    --contact-secondary-color: #ffffff;
+    --contact-text-color: #b7b7b7; 
+}
+
+[data-theme="light"] {
+    --dark-bg-color: #f7f7f7;
+    --darker-bg-color: #ffffff;
+    --text-color: #1a1a1d;
+    --accent-color: #00a651; /* Darker Green */
+    --secondary-color: #555;
+    --link-hover-color: #121214;
+    --card-bg-color: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --button-bg-color-accent: #f0f0f0; 
+
+    /* NEW Contact Colors/Styling (Light Mode Adjustment) */
+    --contact-bg-color: #ffffff; 
+    --contact-primary-color: #007bff; 
+    --contact-secondary-color: #1a1a1d;
+    --contact-text-color: #555; 
+}
+
+/* =========================================================
+   2. GLOBAL BASE STYLES
+   ========================================================= */
+body {
+    background: var(--dark-bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+p, ul, li, a {
+    color: var(--secondary-color);
+}
+
+a {
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    text-decoration: none;
+}
+
+.text-accent {
+    color: var(--accent-color) !important;
+}
+
+.bg-darker {
+    background-color: var(--darker-bg-color) !important;
+}
+
+.section-padding {
+    padding: 100px 0;
+}
+
+.section-title {
+    margin-bottom: 70px;
+    font-size: 2.5rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--accent-color);
+}
+
+/* =========================================================
+   3. PRELOADER & SCROLL UTILITIES
+   ========================================================= */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--dark-bg-color);
+    z-index: 99999;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    background-color: var(--accent-color);
+    margin: 300px auto;
+    animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+@keyframes sk-rotateplane {
+    0% { transform: perspective(120px) rotateX(0deg) rotateY(0deg); }
+    50% { transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg); }
+    100% { transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg); }
+}
+
+#backToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: var(--accent-color);
+    color: var(--dark-bg-color);
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    font-size: 18px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+#backToTopBtn:hover {
+    opacity: 1;
+}
+
+/* =========================================================
+   4. NAVIGATION & THEME SWITCHER
+   ========================================================= */
+#mainNav {
+    background-color: transparent;
+    padding: 15px 0;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    color: var(--accent-color) !important;
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: var(--secondary-color) !important;
+    font-weight: 500;
+    padding: 0 15px !important;
+    transition: color 0.3s;
+}
+
+.nav-link:hover, .nav-item.active .nav-link {
+    color: var(--accent-color) !important;
+}
+
+.navbar-scrolled {
+    background-color: var(--darker-bg-color);
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+/* Hamburger Menu Icon */
+.navbar-toggler {
+    border-color: var(--accent-color);
+}
+.navbar-toggler span {
+    color: var(--accent-color);
+}
+
+/* Theme Switcher */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+}
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+.theme-switch input {
+    display: none;
+}
+.slider {
+    background-color: var(--border-color);
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+}
+.slider:before {
+    background-color: var(--text-color);
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: var(--accent-color);
+}
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   5. HERO SECTION & PARALLAX
+   ========================================================= */
+#hero {
+    height: 100vh;
+    background-image: url('assets/img/7.jpg'); 
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    background-attachment: fixed;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 120px;
+    
+}
+
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(18, 18, 20, 0.85); /* Dark overlay */
+}
+
+#hero .container {
+    position: relative;
+    
+}
+
+#hero .display-3 {
+    color: var(--text-color);
+    font-size: 3.5rem;
+}
+
+#hero .summary-text {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    font-size: 1.2rem;
+}
+
+/* Go Down Button */
+.go-down {
+    position: absolute;
+    bottom: 30px;
+    left: 48%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    color: var(--accent-color);
+    animation: bounce 2s infinite;
+
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+
+/* =========================================================
+   6. SKILLS & COUNTERS (3D Hover Effect)
+   ========================================================= */
+
+/* Base Hover Effect Styles (Used by .skill-card and .blog-card) */
+.hover-effect {
+    /* 3D Properties */
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.5s ease-out, box-shadow 0.5s ease-out;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    z-index: 1;
+}
+
+/* Light/Glow effect base */
+.hover-effect::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 255, 127, 0.4) 0%, rgba(0, 0, 0, 0) 70%);
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    z-index: 0; 
+}
+
+.hover-effect:hover {
+    transform: rotateY(5deg) rotateX(2deg) scale(1.03); /* Subtle 3D tilt */
+    box-shadow: 0 20px 40px var(--shadow-color), 0 0 30px rgba(0, 255, 127, 0.5); /* Accent shadow */
+}
+
+.hover-effect:hover::before {
+    opacity: 0.5; /* Show light glow on hover */
+    transform: translate(50%, 50%);
+}
+
+.hover-effect * {
+    position: relative;
+    z-index: 1; /* Keep content above the glow */
+}
+
+/* Specific Skill Card styles */
+.skill-card {
+    background: var(--card-bg-color);
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.skill-card h4 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.skill-card i {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.badge-cert {
+    background-color: var(--accent-color);
+    color: var(--dark-bg-color);
+    font-size: 1rem;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+/* Fun Facts */
+#funfacts {
+    background-color: var(--accent-color); 
+    color: var(--darker-bg-color); 
+}
+#funfacts p {
+    color: var(--darker-bg-color);
+    opacity: 0.8;
+}
+.counter-box .display-4 {
+    font-weight: 800;
+    color: var(--darker-bg-color);
+}
+
+
+/* =========================================================
+   12. CERTIFICATION LOGOS STYLES (New)
+   ========================================================= */
+
+.cert-logos-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Space between logos */
+}
+
+.cert-logo-container {
+    padding: 10px;
+    max-width: 150px; /* Control max size of logos */
+    text-align: center;
+}
+
+.cert-logo-wrapper {
+    position: relative;
+    padding: 15px; /* Inner padding around the logo */
+    background-color: var(--card-bg-color);
+    border-radius: 50%; /* Makes the wrapper circular */
+    border: 3px solid var(--border-color);
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    aspect-ratio: 1 / 1; /* Ensures a perfect circle/square */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cert-logo {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    filter: grayscale(10%) drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    transition: filter 0.5s ease;
+}
+
+/* Animation: Border Glow Effect */
+.hover-glow:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 20px var(--accent-color);
+    transform: scale(1.05) rotate(2deg);
+    
+}
+
+.hover-glow:hover .cert-logo {
+    filter: none; /* Remove grayscale on hover */
+}
+
+
+/* Alternative Neon Border Animation (Uncomment this and comment out hover-glow for a different effect)
+.cert-logo-wrapper {
+    // ... existing styles ...
+    // Set up the gradient border element
+    border: none;
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        padding: 5px; // Width of the border
+        background: conic-gradient(from 0deg, var(--accent-color) 0%, transparent 50%, var(--accent-color) 100%);
+        mask: 
+            linear-gradient(#fff 0 0) content-box, 
+            linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        -webkit-mask-composite: destination-out;
+        transition: transform 0.8s ease-in-out;
+    }
+}
+.cert-logo-wrapper:hover::before {
+    transform: rotate(360deg); 
+}
+*/
+
+
+/* =========================================================
+   7. TIMELINE (Expandable Content & 3D Zoom on Click)
+   ========================================================= */
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    background-color: var(--border-color);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1px;
+}
+
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    right: -7px;
+    background-color: var(--dark-bg-color);
+    border: 4px solid var(--accent-color);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-inverted {
+    left: 50%;
+}
+
+.timeline-inverted::after {
+    left: -8px;
+}
+
+.timeline-content {
+    padding: 20px 30px;
+    background-color: var(--card-bg-color);
+    position: relative;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    /* 3D Transition for Zoom Effect */
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Timeline 3D/Zoom Effect on Expand */
+.timeline-item.expanded .timeline-content {
+    /* Subtle 3D rotation and scale */
+    transform: translateZ(20px) scale(1.05); 
+    box-shadow: 0 10px 40px rgba(0, 255, 127, 0.3), 0 0 10px rgba(0, 255, 127, 0.1);
+}
+
+/* Toggle Header Style */
+.timeline-item h4.timeline-toggle {
+    cursor: pointer;
+    margin-bottom: 0;
+    padding-right: 40px; 
+    position: relative;
+    transition: color 0.3s;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.timeline-item h4.timeline-toggle:hover {
+    color: var(--accent-color);
+}
+
+/* Toggle Icon Style - New Mouse Icon */
+.timeline-item h4.timeline-toggle .ti-mouse-alt {
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.timeline-item.expanded h4.timeline-toggle .ti-mouse-alt {
+    /* Hide the pulse when expanded */
+    opacity: 0; 
+}
+
+/* Pulse Animation for Hint */
+.pulse-icon {
+    animation: pulse-ring 1.5s infinite, pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 var(--accent-color); }
+    80% { box-shadow: 0 0 0 10px rgba(0, 255, 127, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 127, 0); }
+}
+
+/* Expandable Details Container */
+.timeline-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.7s ease-in-out, padding 0.7s ease-in-out;
+    padding: 0 0 0 10px;
+}
+
+.timeline-item.expanded .timeline-details {
+    max-height: 500px; 
+    padding: 10px 0 0 10px;
+}
+
+.timeline-details ul {
+    list-style: none;
+    padding-left: 0;
+}
+.timeline-details ul li {
+    margin-bottom: 8px;
+    color: var(--secondary-color);
+}
+.timeline-details ul li i {
+    color: var(--accent-color);
+    margin-right: 8px;
+}
+
+
+/* =========================================================
+   8. PORTFOLIO GRID & CAROUSEL (Fixed Image Height)
+   ========================================================= */
+.portfolio-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    cursor: pointer;
+}
+
+.portfolio-item img {
+    display: block;
+    width: 100%;
+    height: 250px; /* Fixed height for visual consistency */
+    object-fit: cover; /* Ensures images fill the container without distortion */
+    transition: transform 0.5s ease;
+}
+
+.portfolio-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.portfolio-item:hover .portfolio-hover {
+    opacity: 1;
+}
+
+.portfolio-hover div {
+    text-align: center;
+    transition: transform 0.4s;
+}
+
+.portfolio-item:hover .portfolio-hover div {
+    transform: translateY(-10px);
+}
+
+.portfolio-hover h5 {
+    color: white;
+    margin-bottom: 5px;
+}
+
+.portfolio-hover i {
+    font-size: 2rem;
+    color: var(--accent-color);
+}
+
+/* Portfolio Carousel Control Styling (Using Themify Icons here) */
+#portfolioCarousel .carousel-control-prev,
+#portfolioCarousel .carousel-control-next {
+    width: 5%;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+#portfolioCarousel .carousel-control-prev:hover,
+#portfolioCarousel .carousel-control-next:hover {
+    opacity: 0.8;
+}
+#portfolioCarousel .carousel-control-prev span,
+#portfolioCarousel .carousel-control-next span {
+    font-size: 2rem;
+    color: var(--accent-color);
+    text-shadow: 0 0 5px var(--dark-bg-color);
+}
+
+
+/* =========================================================
+   9. BLOG CAROUSEL SECTION (Fixed Image Height & Arrow Style)
+   ========================================================= */
+.blog-card {
+    background: var(--card-bg-color);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.5s ease-out, box-shadow 0.5s ease-out;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+.blog-card:hover {
+    transform: rotateY(5deg) rotateX(2deg) scale(1.03); 
+    box-shadow: 0 20px 40px var(--shadow-color), 0 0 30px rgba(0, 255, 127, 0.5); 
+}
+
+/* Blog Image Sizing for Consistency */
+.blog-card img {
+    width: 100%;
+    height: 200px; /* Set a specific, fixed height */
+    object-fit: cover; /* Ensures image fills the area without distortion */
+}
+
+.blog-card .card-body {
+    padding: 20px;
+}
+
+.blog-card h6 a {
+    color: var(--text-color);
+    font-weight: 600;
+}
+.blog-card h6 a:hover {
+    color: var(--accent-color);
+}
+
+.blog-card .snippet {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+}
+
+.read-more {
+    color: var(--accent-color);
+    font-weight: 500;
+}
+
+/* Multi-Card Display Fix */
+#blogCarousel {
+    position: relative; 
+    padding: 0 30px; 
+}
+.carousel-inner .blog-carousel-item {
+    display: flex !important; 
+    width: 100%; 
+    transition: transform 0.6s ease-in-out; 
+    flex-wrap: nowrap;
+}
+.carousel-inner .blog-carousel-item:not(.active) {
+    display: none !important;
+}
+.blog-carousel-item .row {
+    width: 100%;
+    margin: 0; 
+}
+
+
+/* Symbol Arrow Implementation */
+#blogCarousel .carousel-control-prev,
+#blogCarousel .carousel-control-next {
+    width: 30px; 
+    height: 30px;
+    background: transparent !important; 
+    border-radius: 0; 
+    top: 50%;
+    transform: translateY(-50%); 
+    opacity: 0.8;
+    z-index: 10; 
+    transition: all 0.3s ease-in-out; 
+    cursor: pointer; 
+}
+
+#blogCarousel .carousel-control-prev { left: -10px; } 
+#blogCarousel .carousel-control-next { right: -10px; } 
+
+.custom-arrow {
+    font-family: sans-serif; 
+    font-size: 3rem !important; 
+    font-weight: 1000 !important;
+    line-height: 1; 
+    color: var(--accent-color) !important; 
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.5); 
+    display: block !important; 
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out, text-shadow 0.3s;
+}
+
+#blogCarousel .carousel-control-prev:hover,
+#blogCarousel .carousel-control-next:hover { opacity: 1; }
+
+#blogCarousel .carousel-control-prev:hover .custom-arrow,
+#blogCarousel .carousel-control-next:hover .custom-arrow {
+    color: var(--link-hover-color) !important;
+    text-shadow: 0 0 10px var(--accent-color);
+}
+
+#blogCarousel .carousel-control-prev:hover .custom-arrow { transform: translateX(-5px); }
+#blogCarousel .carousel-control-next:hover .custom-arrow { transform: translateX(5px); }
+
+
+/* =========================================================
+   10. NEW CONTACT INFO SECTION STYLES
+   ========================================================= */
+.contact-section {
+    padding: 100px 0;
+    background-color: var(--contact-bg-color); 
+    /* Subtle noise and color gradient effects */
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='), 
+                      radial-gradient(circle at 10% 50%, rgba(0, 191, 255, 0.1), transparent 50%),
+                      radial-gradient(circle at 90% 50%, rgba(138, 43, 226, 0.1), transparent 50%);
+    background-size: 1px 1px, 100% 100%, 100% 100%;
+    background-blend-mode: overlay;
+    position: relative;
+}
+
+.contact-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--contact-secondary-color);
+    letter-spacing: 5px;
+    margin-bottom: 5px;
+}
+
+.contact-subtitle {
+    font-size: 1.2rem;
+    color: var(--contact-primary-color);
+    font-weight: 500;
+}
+
+/* Individual Contact Box Styling */
+.contact-box {
+    padding: 20px 10px;
+}
+
+/* NEW: Style for the anchor tag wrapping the icon for clickability/hover */
+.contact-icon-link {
+    display: inline-block; /* Essential to make the transform property work */
+    margin-bottom: 15px;
+    line-height: 0; /* Prevents extra spacing under the image */
+    transition: transform 0.2s ease-out; /* Smooth transition for the pop effect */
+}
+
+/* POP-UP EFFECT: Make the icon bigger when hovered */
+.contact-icon-link:hover {
+    transform: scale(1.15); 
+}
+.contact-icon-link:active {
+    transform: scale(0.95); /* Little press down effect on click */
+}
+
+/* Style for Image-based icons (Email/LinkedIn/Phone/Address) */
+.contact-img-icon {
+    /* These dimensions match the font-icon size (3rem) */
+    width: 3rem; 
+    height: 3rem; 
+    object-fit: contain; /* Ensures the icon scales properly within the box */
+    display: block; /* Important for alignment inside the link */
+    /* This drop-shadow is crucial for the NEON look on the backgroundless image */
+    filter: drop-shadow(0 0 8px var(--contact-primary-color)); 
+}
+
+.contact-label {
+    color: var(--contact-secondary-color);
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.contact-detail {
+    display: block;
+    color: var(--contact-text-color);
+    font-size: 0.95rem;
+    margin: 3px 0;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.email-link:hover, .website-link:hover, .social-link:hover, .address-link:hover {
+    color: var(--contact-primary-color);
+}
+
+/* Divider Line Styling */
+.contact-divider {
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+    margin: 50px auto 30px;
+    height: 2px;
+}
+
+.divider-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--contact-text-color);
+    transform: translateY(-50%);
+    opacity: 0.8;
+}
+
+.divider-dot {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--contact-text-color);
+    background: var(--contact-bg-color);
+    z-index: 2;
+}
+
+.left-dot { left: 0; }
+.right-dot { right: 0; transform: translateY(-50%) translateX(50%); }
+
+/* Footer Branding Area */
+.contact-branding {
+    padding-bottom: 50px;
+}
+
+.branding-name {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--contact-secondary-color); /* Outline text effect for webkit browsers */
+    /* text-stroke: 1px var(--contact-secondary-color);  */
+    letter-spacing: 5px;
+    margin-bottom: 5px;
+}
+
+.branding-year {
+    font-size: 0.9rem;
+    color: var(--contact-text-color);
+    letter-spacing: 3px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   11. RESPONSIVE ADJUSTMENTS
+   ========================================================= */
+@media (max-width: 991px) {
+    .timeline::after {
+        left: 31px;
+    }
+    .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+    .timeline-inverted {
+        left: 0;
+    }
+    .timeline-item::after {
+        left: 24px;
+    }
+    .timeline-inverted::after {
+        left: 24px;
+    }
+    .navbar-collapse {
+        background-color: var(--darker-bg-color);
+        padding: 15px;
+        border-radius: 8px;
+    }
+    .nav-link {
+        padding: 5px 0 !important;
+    }
+
+    /* Contact Section Mobile Adjustments */
+    .contact-title {
+        font-size: 2rem;
+        letter-spacing: 3px;
+    }
+    .branding-name {
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+    }
+    .contact-divider {
+        width: 90%;
+    }
+}
